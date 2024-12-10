@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { generateOTP, sendOTP } = require("../../services/otpservice");
 const { getStudentCollection } = require("../../config/collections");
+const { default: mongoose } = require("mongoose");
 
 dotenv.config();
 const router = express.Router();
@@ -22,7 +23,7 @@ function maskEmail(email) {
   const maskedLocalPart = localPart.slice(0, 3) + "****";
   return maskedLocalPart + "@" + domain;
 }
-router.get("/student/register/check-username", async (req, res) => {
+router.get("/student-register/check-username", async (req, res) => {
   try {
     const { username } = req.body;
 
@@ -51,7 +52,7 @@ router.get("/student/register/check-username", async (req, res) => {
     res.status(500).json({ message: "Server error during username check." });
   }
 });
-router.post("/student/register/check-email", async (req, res) => {
+router.post("/student-register/check-email", async (req, res) => {
   try {
     const { email } = req.body; // Extract email from the request body
 
@@ -84,11 +85,11 @@ router.post("/student/register/check-email", async (req, res) => {
 
 router.post("/student-register", limiter, async (req, res) => {
   try {
-    const { fName, username, email, password, collegeRoll, profilePhoto } =
+    const { fullName, username, email, password, collegeRoll, profilePhoto } =
       req.body;
 
     if (
-      !fName ||
+      !fullName ||
       !username ||
       !email ||
       !password ||
@@ -103,7 +104,7 @@ router.post("/student-register", limiter, async (req, res) => {
     const otp = generateOTP();
     otpStore.set(email, {
       otp,
-      fName,
+      fullName,
       username,
       email,
       password: hashedPassword,
@@ -149,7 +150,7 @@ router.post("/student-register-verify-otp", async (req, res) => {
 
     const newStudent = {
       _id: new mongoose.Types.ObjectId(),
-      fName: storedData.fName,
+      fullName: storedData.fullName,
       username: storedData.username,
       email: storedData.email,
       password: storedData.password,
@@ -198,7 +199,6 @@ router.post("/student-register-verify-otp", async (req, res) => {
     const result = await studentCollection.insertOne(newStudent);
     otpStore.delete(email);
 
-    // Generate JWT token for the registered user
     const token = jwt.sign(
       { id: result.insertedId, email: newStudent.email, role: newStudent.role },
       process.env.JWT_SECRET,
@@ -218,7 +218,7 @@ router.post("/student-register-verify-otp", async (req, res) => {
       token,
       student: {
         id: result.insertedId,
-        fName: newStudent.fName,
+        fullName: newStudent.fullName,
         username: newStudent.username,
         email: newStudent.email,
         role: newStudent.role,
@@ -275,7 +275,7 @@ router.post("/student-login", limiter, async (req, res) => {
       token,
       student: {
         id: student._id,
-        fName: student.fName,
+        fullName: student.fullName,
         username: student.username,
         email: student.email,
         roll: student.roll,
@@ -288,7 +288,7 @@ router.post("/student-login", limiter, async (req, res) => {
   }
 });
 
-router.post("/forgot-password/verify-email", limiter, async (req, res) => {
+router.post("/student-forgot-password/verify-email", limiter, async (req, res) => {
   try {
     const { email } = req.body;
 
@@ -327,7 +327,7 @@ router.post("/forgot-password/verify-email", limiter, async (req, res) => {
   }
 });
 
-router.post("/forgot-password/reset-password", async (req, res) => {
+router.post("/student-forgot-password/set-new-password", async (req, res) => {
   try {
     const { email, newPassword, otp } = req.body;
 
@@ -395,7 +395,7 @@ router.post("/forgot-password/reset-password", async (req, res) => {
       token,
       student: {
         id: student._id,
-        fName: student.fName,
+        fullName: student.fullName,
         username: student.username,
         email: student.email,
         role: student.role,
@@ -406,3 +406,5 @@ router.post("/forgot-password/reset-password", async (req, res) => {
     res.status(500).json({ message: "Server error during password reset." });
   }
 });
+
+module.exports = router;
