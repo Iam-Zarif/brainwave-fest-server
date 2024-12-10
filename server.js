@@ -17,12 +17,16 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 const corsOptions = {
-  origin: "http://localhost:5173", 
-  methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
+  origin: "http://localhost:5173", // Frontend URL
+  methods: "GET, POST, PUT, PATCH, DELETE",
+  allowedHeaders: "Content-Type, Authorization", // Allow Authorization header for your API token
+  credentials: true,  // Enable cookies to be sent with requests
   preflightContinue: false,
   optionsSuccessStatus: 204,
 };
-app.use(cors(corsOptions));
+
+app.use(cors(corsOptions)); // Apply CORS middleware
+
 
 app.use(express.json());
 
