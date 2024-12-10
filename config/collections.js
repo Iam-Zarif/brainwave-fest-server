@@ -30,22 +30,22 @@ const getStudentFeedbackCollection = async () => {
   return studentsFeedbackCollection;
 };
 
-const getDiscussionCollection = async () => {
-  const discussionCollection = await getCollection("posts", "discussions");
-  logCollectionExistence("Discussion", discussionCollection);
-  return discussionCollection;
+const getCoursesCollection = async () => {
+  const coursesCollection = await getCollection("courses", "universityCourses");
+  logCollectionExistence("Courses", coursesCollection);
+  return coursesCollection;
+};
+const getAttendanceCollection = async () => {
+  const attendanceCollection = await getCollection("attendance", "studentAttendance");
+  logCollectionExistence("Attendance", attendanceCollection);
+  return attendanceCollection;
 };
 
-const getProjectCollection = async () => {
-  const projectCollection = await getCollection("posts", "projects");
-  logCollectionExistence("Project", projectCollection);
-  return projectCollection;
-};
 
 module.exports = {
   getStudentCollection,
   getFacultyCollection,
   getStudentFeedbackCollection,
-  getDiscussionCollection,
-  getProjectCollection,
+  getCoursesCollection,
+  getAttendanceCollection,
 };
