@@ -8,6 +8,7 @@ const studentProfileRoutes = require("./routes/profiles/studentProfile")
 const facultyAuthroutes = require("./routes/facultyAuth/facultyAuth")
 const studentFeedbackRoute = require("./routes/feedbacks/studentFeedback")
 const adminAuthroutes = require("./routes/adminAuth/adminAuth")
+const adminWatchUserListRoutes = require("./routes/AdminUserList/AdminUserList")
 
 connectDB();
 const app = express();
@@ -29,6 +30,7 @@ app.use("/student-profile", studentProfileRoutes)
 app.use("/faculty-auth", facultyAuthroutes)
 app.use("/student-feedback", studentFeedbackRoute)
 app.use("/admin-auth", adminAuthroutes)
+app.use("/admin-watch", adminWatchUserListRoutes)
 
 
 
