@@ -3,10 +3,8 @@ const { getCoursesCollection } = require("../../config/collections");
 const ObjectId = require("mongodb").ObjectId;
 const router = express.Router();
 
-// Middleware to check user role
 const checkAdminRole = (req, res, next) => {
-  // Assuming the user object is stored in req.user after authentication
-  const userRole = req.user?.role; // You can adjust how the role is retrieved based on your authentication middleware
+  const userRole = req.user?.role; 
   if (userRole === "Student") {
     return res
       .status(403)
@@ -15,7 +13,6 @@ const checkAdminRole = (req, res, next) => {
   next();
 };
 
-// POST: Create a new course
 router.post("/courses", checkAdminRole, async (req, res) => {
   try {
     const {
@@ -56,7 +53,6 @@ router.post("/courses", checkAdminRole, async (req, res) => {
       status: "Active", // Default course status
     };
 
-    // Insert the new course into the database
     const result = await coursesCollection.insertOne(newCourse);
 
     res.status(201).json({

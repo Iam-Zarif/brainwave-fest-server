@@ -76,7 +76,6 @@ router.put("/update-profile", authenticateToken, async (req, res) => {
   try {
     const StudentProfile = await getStudentCollection();
 
-    // Find student by email
     const student = await StudentProfile.findOne({ email: req.student.email });
 
     if (!student) {
