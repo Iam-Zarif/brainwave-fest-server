@@ -16,12 +16,15 @@ const app = express();
 app.use(cookieParser());
 app.use(morgan("dev"));
 
-const corsOptions = {
-  origin: ["http://localhost:5173"],
-  credentials: true,
-};
 
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  })
+);
 app.use(express.json());
 
 
