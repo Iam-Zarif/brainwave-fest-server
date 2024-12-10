@@ -17,10 +17,19 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 app.use(
-  cors({
-    origin: "*", // Allows all origins
-    credentials: false, // Disables credential sharing
-  })
+
+cors({
+
+origin: "*",
+
+methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
+
+preflightContinue: false,
+
+optionsSuccessStatus: 204,
+
+})
+
 );
 app.use(express.json());
 
