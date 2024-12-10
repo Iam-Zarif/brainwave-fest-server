@@ -16,12 +16,12 @@ const app = express();
 app.use(cookieParser());
 app.use(morgan("dev"));
 
-const corsOptions = {
-  origin: ["http://localhost:5173"],
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: "*", // Allows all origins
+    credentials: false, // Disables credential sharing
+  })
+);
 app.use(express.json());
 
 
