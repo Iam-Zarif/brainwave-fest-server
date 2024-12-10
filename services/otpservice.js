@@ -22,7 +22,6 @@ const sendOTP = async (email, otp) => {
   <div style="margin: 20px 0;">
     <code style="font-size: 24px; font-weight: bold; color: #4CAF50; padding: 10px; background: #f9f9f9; border-radius: 5px; display: inline-block;">${otp}</code>
   </div>
-  <img src="https://i.ibb.co.com/y0ns0CM/tejgao-Logo.png" alt="BrainWave" style="max-width: 200px; border-radius: 10px; display: block; margin: 0 auto;">
   <p>Please use this OTP within <strong>5 minutes</strong>. Do not share this with anyone.</p>
 </div>
 
