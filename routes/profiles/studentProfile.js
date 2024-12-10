@@ -46,9 +46,12 @@ router.get("/student-profile", authenticateToken, async (req, res) => {
   }
 });
 
+
+
+
 router.put("/update-profile", authenticateToken, async (req, res) => {
   const {
-    fName,
+    fullName,
     username,
     email,
     phone,
@@ -89,7 +92,7 @@ router.put("/update-profile", authenticateToken, async (req, res) => {
 
     // Prepare the fields to update
     const updatedFields = {
-      fName,
+      fullName,
       username,
       phone,
       bloodGroup,
