@@ -16,13 +16,10 @@ const app = express();
 app.use(cookieParser());
 app.use(morgan("dev"));
 
-
 app.use(
   cors({
-    origin: "*",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
+    origin: "*", // Allows all origins
+    credentials: false, // Disables credential sharing
   })
 );
 app.use(express.json());
