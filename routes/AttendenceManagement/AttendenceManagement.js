@@ -4,7 +4,6 @@ const { ObjectId } = require("mongodb");
 
 const router = express.Router();
 
-// POST: Mark attendance for a class session (Faculty only)
 router.post("/attendance", async (req, res) => {
   try {
     const { courseId, studentId, date, status } = req.body; // status: present/absent
@@ -13,7 +12,6 @@ router.post("/attendance", async (req, res) => {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    // Verify user role (faculty)
     const { role, userId } = req.user; // Assuming user is added to req object by authentication middleware
 
     if (role !== "Faculty") {
@@ -51,12 +49,9 @@ router.post("/attendance", async (req, res) => {
   }
 });
 
-// GET: View attendance of a specific student
 router.get("/attendance/:studentId", async (req, res) => {
   try {
     const { studentId } = req.params;
-
-    // Verify if the user is authorized to view this student's attendance
     const { role, userId } = req.user;
 
     if (role === "Student" && userId !== studentId) {
