@@ -407,4 +407,23 @@ router.post("/student-forgot-password/set-new-password", async (req, res) => {
   }
 });
 
+router.post("/logout", async (req, res) => {
+  try {
+    const token = req.cookies.token;
+
+    console.log("Token before clearing:", token);
+
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+
+    console.log("Logout successful. Token cleared.");
+    res.status(200).json({ message: "Logout successful." });
+  } catch (error) {
+    console.error("Error during logout:", error);
+    res.status(500).json({ message: "Server error during logout." });
+  }
+});
 module.exports = router;
